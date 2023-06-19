@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { HiArrowNarrowRight } from "react-icons/hi";
+import { Link } from 'react-router-dom';
 
 const Services = () => {
     const [services, setServices] = useState([]);
     useEffect(() => {
-        fetch('services.json')
+        fetch('http://localhost:5000/services')
             .then(res => res.json())
             .then(data => setServices(data))
     }, [])
@@ -32,13 +33,15 @@ const Services = () => {
                                     </h2>
 
                                     <div className='flex justify-between items-center'>
-                                        
+
                                         <p className='pt-4 text-[#FF3811] font-semibold'>
                                             Price : $ <span>{service.price}</span></p>
-                                        
-                                        <button className='pt-4 text-[#FF3811]'>
-                                            <HiArrowNarrowRight />
-                                        </button>
+
+                                        <Link to={`/checkout/${service._id}`}>
+                                            <button className='pt-4 text-[#FF3811]'>
+                                                <HiArrowNarrowRight />
+                                            </button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

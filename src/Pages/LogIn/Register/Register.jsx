@@ -1,19 +1,71 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import img from '../../../assets/images/login/login.svg'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Register = () => {
+
+    const { createUser } = useContext(AuthContext);
+    const location = useLocation()
+    const navigate = useNavigate();
+
+    const from = location.state?.from?.pathname || "/";
+
     const handleSignUp = (event) => {
-     event.preventDefault();
-     const form = event.target;
+        event.preventDefault();
+        const form = event.target;
 
-     const name = form.name.value;
-     const email = form.email.value;
-     const password = form.password.value;
-     const con_pass = form.con_password.value;
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const con_pass = form.con_password.value;
 
+        if(password != con_pass){
+            Swal.fire({
+                title: 'Error!',
+                text: "Password did not match",
+                icon: 'error',
+                confirmButtonText: 'Cool'
+            })
+        }
 
+        if(password.length < 6 ){
+            Swal.fire({
+                title: 'Error!',
+                text: "Should be more than 6 character",
+                icon: 'error',
+                confirmButtonText: 'Cool'
+            })
+        }
+        
+        
+
+        createUser(email, password)
+            .then(res => {
+                console.log(res.user);
+                Swal.fire(
+                    'Good job!',
+                    'Successfully created account',
+                    'success'
+                )
+                navigate(from , {replace:true});
+            })
+            .catch(err => {
+                console.error(err.message);
+                Swal.fire({
+                    title: 'Error!',
+                    text: `${err.message}`,
+                    icon: 'error',
+                    confirmButtonText: 'Oops !'
+                })
+               
+            })
+
+            form.reset();
     }
+
+
     return (
         <div className="min-h-screen mb-16 mt-11">
             <div className="flex flex-col lg:flex-row justify-center">
