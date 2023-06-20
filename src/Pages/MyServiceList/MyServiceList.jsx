@@ -7,7 +7,7 @@ const MyServiceList = () => {
     const { user } = useContext(AuthContext);
     const [myList, setMyList] = useState([]);
 
-    const url = `http://localhost:5000/bookingData?email=${user?.email}`;
+    const url = `https://car-doctors-server-six.vercel.app/bookingData?email=${user?.email}`;
 
     useEffect(() => {
         fetch(url)
@@ -28,7 +28,7 @@ const MyServiceList = () => {
 
             if (result.isConfirmed) {
 
-                fetch(`http://localhost:5000/bookingData/${id}`, {
+                fetch(`https://car-doctors-server-six.vercel.app/bookingData/${id}`, {
                     method: "DELETE",
                 })
                     .then(res => res.json())
@@ -46,7 +46,7 @@ const MyServiceList = () => {
     }
 
     const handleConfirmBtn = (id) => {
-        fetch(`http://localhost:5000/bookingData/${id}`, {
+        fetch(`https://car-doctors-server-six.vercel.app/bookingData/${id}`, {
             method: "PATCH",
             headers: {
                 'content-type': "application/json",
